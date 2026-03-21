@@ -237,9 +237,11 @@ function extractInvoiceLinks(bodyText) {
 
 async function analyzeEmail(subject, from, snippet, bodyText, hasAtt) {
   const links = extractInvoiceLinks(bodyText);
-  const sys = `Invoice detection agent. Respond ONLY with valid JSON:
-{"is_invoice":boolean,"vendor":"string or null","amount":"string or null","currency":"string or null","description":"string or null (what it's for, max 50 chars)","invoice_links":["array of invoice/payment URLs from body"],"due_date":"string or null"}`;
-  const txt = await callClaude(sys,`Subject: ${subject}\nFrom: ${from}\nSnippet: ${snippet}\nBody: ${bodyText.substring(0,600)}\nAttachment: ${hasAtt}\nLinks in body: ${links.join(', ')}`);
+  const sys = `You are an invoice detection agent for an Israeli company. Extract invoice details from email data.
+IMPORTANT: Look for amounts in ILS (שקל/₪/ש"ח), USD ($), EUR (€). Numbers near words like סכום/מחיר/לתשלום/total/amount are amounts.
+Respond ONLY with valid JSON, no extra text:
+{"is_invoice":boolean,"vendor":"string or null","amount":"string with currency symbol or null","currency":"ILS or USD or EUR or null","description":"string or null (max 50 chars)","invoice_links":["URLs"],"due_date":"string or null"}`;
+  const txt = await callClaude(sys,`Subject: ${subject}\nFrom: ${from}\nSnippet: ${snippet}\nBody: ${bodyText.substring(0,1500)}\nHas attachment: ${hasAtt}\nLinks: ${links.join(', ')}`);
   try {
     const parsed = JSON.parse(txt.replace(/```json|```/g,'').trim());
     if(links.length>0&&(!parsed.invoice_links||!parsed.invoice_links.length)) parsed.invoice_links=links;
@@ -261,28 +263,20 @@ async function startScan() {
   const afterDate=Math.floor((Date.now()-days*86400000)/1000);
   log(`מתחיל סריקה — ${days} ימים, עד ${maxEmails} אימיילים`);
 
-  const queries=[
-    `invoice after:${afterDate}`,
-    `receipt after:${afterDate}`,
-    `חשבונית after:${afterDate}`,
-    `קבלה after:${afterDate}`,
-    `חשבונית מס after:${afterDate}`,
-    `חשבונית מס קבלה after:${afterDate}`,
-    `קישור להורדת מסמך after:${afterDate}`,
-    `payment after:${afterDate}`,
-    `order confirmation after:${afterDate}`,
-    `from:cardcom.co.il after:${afterDate}`,
-    `from:icount after:${afterDate}`,
-    `from:rivhit after:${afterDate}`,
-    `מסמך פיננסי after:${afterDate}`
-  ];
-
+  log('טוען כל האימיילים...');
   let ids=new Set();
-  for(const q of queries) {
+  let pageToken = null;
+  let fetched = 0;
+  while(fetched < maxEmails) {
     try {
-      const res=await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(q)}&maxResults=${Math.ceil(maxEmails/queries.length)}`);
-      if(res.messages) res.messages.forEach(m=>ids.add(m.id));
-    } catch(e) { log(`שגיאת חיפוש: ${e.message}`); }
+      const batchSize = Math.min(500, maxEmails - fetched);
+      let url = `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=after:${afterDate}&maxResults=${batchSize}`;
+      if(pageToken) url += `&pageToken=${pageToken}`;
+      const res = await gmailFetch(url);
+      if(res.messages) { res.messages.forEach(m=>ids.add(m.id)); fetched+=res.messages.length; }
+      pageToken = res.nextPageToken || null;
+      if(!pageToken) break;
+    } catch(e) { log(`שגיאת טעינה: ${e.message}`); break; }
   }
 
   const allIds=[...ids].slice(0,maxEmails);
