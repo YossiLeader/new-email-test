@@ -8,396 +8,99 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-  :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --border: #e2e0d8;
-    --text: #1a1917;
-    --muted: #7a7870;
-    --accent: #2563eb;
-    --accent-bg: #eff6ff;
-    --success-bg: #f0fdf4;
-    --success: #16a34a;
-    --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  }
-
-  body {
-    font-family: 'Heebo', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .logo-dot {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-  }
-
-  .user-badge {
-    font-size: 13px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--accent-bg);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-  .page-title {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.25rem;
-  }
-
-  .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 2rem; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .card-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .connect-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Heebo', sans-serif;
-    cursor: pointer;
-    color: var(--text);
-    transition: border-color 0.15s, box-shadow 0.15s;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .connect-btn:hover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
-
-  .google-icon { width: 18px; height: 18px; flex-shrink: 0; }
-
-  .connected-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    display: none;
-  }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--success-bg);
-    color: var(--success);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-  }
-
-  .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
-
-  .token-area { margin-top: 1rem; display: none; }
-
-  .token-area p { font-size: 13px; color: var(--muted); margin-bottom: 8px; line-height: 1.6; }
-
-  .token-area input {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-family: monospace;
-    color: var(--text);
-    background: var(--bg);
-    margin-bottom: 8px;
-  }
-
-  .token-area input:focus { outline: none; border-color: var(--accent); }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Heebo', sans-serif;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .btn:hover { opacity: 0.88; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
-
-  .controls-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
-
-  .ctrl label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 5px; font-weight: 500; }
-
-  .ctrl select {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-family: 'Heebo', sans-serif;
-    color: var(--text);
-    background: var(--surface);
-    cursor: pointer;
-  }
-
-  .ctrl select:focus { outline: none; border-color: var(--accent); }
-
-  .scan-btn-wrap { margin-top: 0.5rem; }
-
-  .status-bar {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    background: var(--accent-bg);
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  .status-bar.on { display: flex; }
-
-  .spin {
-    width: 14px; height: 14px;
-    border: 2px solid #bfdbfe;
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.75s linear infinite;
-    flex-shrink: 0;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1rem;
-    display: none;
-  }
-
-  .stat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    box-shadow: var(--shadow);
-  }
-
-  .stat-l { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .stat-v { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
-
-  .tbl-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: none;
-    margin-bottom: 1rem;
-  }
-
-  .tbl-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .tbl-title { font-size: 14px; font-weight: 600; }
-
-  table { width: 100%; border-collapse: collapse; }
-
-  th {
-    text-align: right;
-    padding: 10px 18px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
-  }
-
-  td {
-    padding: 12px 18px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
-
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--bg); }
-
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .b-pdf { background: #eff6ff; color: #1d4ed8; }
-  .b-file { background: #f0fdf4; color: #15803d; }
-  .b-no { background: var(--bg); color: var(--muted); }
-
-  .dl-btn {
-    padding: 3px 10px;
-    font-size: 12px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--muted);
-    font-family: 'Heebo', sans-serif;
-    transition: border-color 0.15s, color 0.15s;
-  }
-
-  .dl-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .log {
-    background: #1a1917;
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    font-size: 11px;
-    font-family: monospace;
-    color: #a0a09a;
-    max-height: 140px;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-    display: none;
-    line-height: 2;
-  }
-
-  .log.on { display: block; }
-  .log-t { color: #4a4a46; margin-left: 10px; }
-  .log-ok { color: #4ade80; }
-
-  .empty {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  .scan-locked { opacity: 0.45; pointer-events: none; }
+  :root { --bg:#f5f4f0;--surface:#fff;--border:#e2e0d8;--text:#1a1917;--muted:#7a7870;--accent:#2563eb;--accent-bg:#eff6ff;--success-bg:#f0fdf4;--success:#16a34a;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,0.08); }
+  body { font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6; }
+  .topbar { background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between; }
+  .logo { font-size:15px;font-weight:600;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px; }
+  .logo-dot { width:8px;height:8px;background:var(--accent);border-radius:50%; }
+  .page { max-width:1000px;margin:0 auto;padding:2rem 1.5rem; }
+  .page-title { font-size:22px;font-weight:600;letter-spacing:-0.03em;margin-bottom:0.25rem; }
+  .page-sub { font-size:14px;color:var(--muted);margin-bottom:2rem; }
+  .card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1rem; }
+  .card-label { font-size:11px;font-weight:600;letter-spacing:0.07em;color:var(--muted);text-transform:uppercase;margin-bottom:1rem; }
+  .connect-btn { display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:'Heebo',sans-serif;cursor:pointer;color:var(--text);width:100%;justify-content:center;transition:border-color 0.15s; }
+  .connect-btn:hover { border-color:var(--accent); }
+  .google-icon { width:18px;height:18px;flex-shrink:0; }
+  .connected-row { display:none;align-items:center;gap:10px; }
+  .pill { display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--success);font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px; }
+  .pill-dot { width:6px;height:6px;border-radius:50%;background:var(--success); }
+  .token-area { margin-top:1rem;display:none; }
+  .token-area p { font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.6; }
+  .token-area input { width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-family:monospace;color:var(--text);background:var(--bg);margin-bottom:8px; }
+  .token-area input:focus { outline:none;border-color:var(--accent); }
+  .btn { display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:14px;font-weight:500;font-family:'Heebo',sans-serif;cursor:pointer;transition:opacity 0.15s; }
+  .btn:hover { opacity:0.88; }
+  .btn:disabled { opacity:0.4;cursor:not-allowed; }
+  .btn-outline { background:transparent;color:var(--text);border:1px solid var(--border); }
+  .btn-outline:hover { border-color:var(--accent);color:var(--accent);opacity:1; }
+  .controls-row { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem; }
+  .ctrl label { font-size:12px;color:var(--muted);display:block;margin-bottom:5px;font-weight:500; }
+  .ctrl select { width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;font-family:'Heebo',sans-serif;color:var(--text);background:var(--surface);cursor:pointer; }
+  .status { display:none;align-items:center;gap:10px;background:var(--accent-bg);border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent);margin-bottom:1rem; }
+  .status.on { display:flex; }
+  .spin { width:14px;height:14px;border:2px solid #bfdbfe;border-top-color:var(--accent);border-radius:50%;animation:spin 0.75s linear infinite;flex-shrink:0; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .stats { display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem; }
+  .stat { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow); }
+  .stat-l { font-size:11px;color:var(--muted);font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em; }
+  .stat-v { font-size:24px;font-weight:600;letter-spacing:-0.03em; }
+  .tbl-card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:none;margin-bottom:1rem; }
+  .tbl-head { display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border); }
+  .tbl-title { font-size:14px;font-weight:600; }
+  .tbl-wrap { overflow-x:auto; }
+  table { width:100%;border-collapse:collapse;font-size:13px; }
+  th { text-align:right;padding:10px 14px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border);background:var(--bg);white-space:nowrap; }
+  td { padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--bg); }
+  .badge { display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap; }
+  .b-pdf { background:#eff6ff;color:#1d4ed8; }
+  .b-file { background:#f0fdf4;color:#15803d; }
+  .b-link { background:#fdf4ff;color:#7e22ce; }
+  .b-no { background:var(--bg);color:var(--muted); }
+  .b-both { background:#fff7ed;color:#c2410c; }
+  .dl-btn,.view-btn { padding:3px 8px;font-size:11px;background:transparent;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted);font-family:'Heebo',sans-serif;transition:border-color 0.15s,color 0.15s;margin-right:4px;text-decoration:none;display:inline-block; }
+  .dl-btn:hover { border-color:var(--accent);color:var(--accent); }
+  .view-btn:hover { border-color:#7e22ce;color:#7e22ce; }
+  .td-vendor { max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+  .td-desc { max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--muted); }
+  .td-amount { font-weight:500; }
+  .log { background:#1a1917;border-radius:var(--radius);padding:12px 16px;font-size:11px;font-family:monospace;color:#a0a09a;max-height:150px;overflow-y:auto;margin-bottom:1rem;display:none;line-height:2; }
+  .log.on { display:block; }
+  .log-t { color:#4a4a46;margin-left:10px; }
+  .log-ok { color:#4ade80; }
+  .log-warn { color:#fbbf24; }
+  .empty { text-align:center;padding:3rem 1rem;color:var(--muted);font-size:14px; }
+  .scan-locked { opacity:0.45;pointer-events:none; }
+  .progress-bar { height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden;display:none; }
+  .progress-bar.on { display:block; }
+  .progress-fill { height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s; }
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <div class="logo">
-    <div class="logo-dot"></div>
-    סוכן חשבוניות
-  </div>
-  <div class="user-badge" id="userBadge" style="display:none">
-    <div class="avatar" id="userAvatar">?</div>
-    <span id="userEmail"></span>
-  </div>
+  <div class="logo"><div class="logo-dot"></div>סוכן חשבוניות</div>
 </div>
-
 <div class="page">
   <div class="page-title">סריקת חשבוניות מ-Gmail</div>
-  <div class="page-sub">הסוכן יחפש חשבוניות וקבלות בתיבת הדואר שלך ויסכם אותן</div>
+  <div class="page-sub">מזהה חשבוניות, קבצים מצורפים וקישורים למסמכים פיננסיים</div>
 
-  <!-- Step 1: Connect Gmail -->
   <div class="card" id="authCard">
     <div class="card-label">שלב 1 — חיבור ל-Gmail</div>
-
     <button class="connect-btn" id="connectBtn" onclick="connectGmail()">
-      <svg class="google-icon" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
+      <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       התחבר עם Google
     </button>
-
     <div class="token-area" id="tokenArea">
       <p>חלון נפתח — אשר גישה, ואז העתק את ה-URL המלא מהדפדפן והדבק כאן:</p>
       <input type="text" id="tokenInput" placeholder="https://...#access_token=..." />
       <button class="btn" onclick="extractToken()">אישור</button>
     </div>
-
     <div class="connected-row" id="connectedRow">
       <div class="pill"><div class="pill-dot"></div> מחובר ל-Gmail</div>
     </div>
   </div>
 
-  <!-- Step 2: Scan -->
   <div class="card scan-locked" id="scanCard">
     <div class="card-label">שלב 2 — סריקה</div>
     <div class="controls-row">
@@ -414,259 +117,258 @@
       <div class="ctrl">
         <label>מקסימום אימיילים</label>
         <select id="maxEmails">
-          <option value="20">20</option>
-          <option value="50" selected>50</option>
-          <option value="100">100</option>
+          <option value="50">50</option>
+          <option value="100" selected>100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
         </select>
       </div>
     </div>
-    <div class="scan-btn-wrap">
+    <div>
       <button class="btn" id="scanBtn" onclick="startScan()" style="width:100%">סרוק חשבוניות</button>
+      <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
   </div>
 
-  <!-- Status -->
-  <div class="status-bar" id="statusBar">
-    <div class="spin"></div>
-    <span id="statusTxt"></span>
-  </div>
+  <div class="status" id="statusBar"><div class="spin"></div><span id="statusTxt"></span></div>
 
-  <!-- Stats -->
   <div class="stats" id="statsRow">
     <div class="stat"><div class="stat-l">חשבוניות</div><div class="stat-v" id="sCount">0</div></div>
-    <div class="stat"><div class="stat-l">סה"כ</div><div class="stat-v" id="sTotal">—</div></div>
+    <div class="stat"><div class="stat-l">עם קישורים</div><div class="stat-v" id="sLinks">0</div></div>
+    <div class="stat"><div class="stat-l">סה"כ סכום</div><div class="stat-v" id="sTotal">—</div></div>
     <div class="stat"><div class="stat-l">נסרקו</div><div class="stat-v" id="sScanned">0</div></div>
   </div>
 
-  <!-- Table -->
   <div class="tbl-card" id="tblCard">
     <div class="tbl-head">
       <span class="tbl-title">חשבוניות שנמצאו</span>
       <button class="btn btn-outline" onclick="exportCSV()" style="padding:6px 14px;font-size:13px">ייצא CSV</button>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>תאריך</th>
-          <th>ספק</th>
-          <th>סכום</th>
-          <th>קובץ</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="tblBody"></tbody>
-    </table>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>תאריך</th><th>ספק</th><th>סכום</th><th>תיאור</th><th>מקור</th><th>פעולות</th>
+        </tr></thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="empty" id="emptyState">התחבר ל-Gmail כדי להתחיל</div>
-
-  <!-- Log -->
   <div class="log" id="logArea"></div>
 </div>
 
 <script>
-const CLIENT_ID = '738273698440-7m4fd5slfqq7bh5fh2ljpfov70dgjvce.apps.googleusercontent.com';
+const CLIENT_ID = 'GOOGLE_CLIENT_ID_HERE';
 const SCOPE = 'https://www.googleapis.com/auth/gmail.readonly';
-let invoices = [], scannedCount = 0;
+let invoices = [], scannedCount = 0, linkCount = 0;
 
-function log(msg, ok) {
+function log(msg, type) {
   const a = document.getElementById('logArea');
   a.classList.add('on');
-  const t = new Date().toLocaleTimeString('he-IL', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const t = new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const d = document.createElement('div');
-  d.innerHTML = `<span class="log-t">${t}</span><span class="${ok?'log-ok':''}">${msg}</span>`;
-  a.appendChild(d);
-  a.scrollTop = a.scrollHeight;
+  const cls = type==='ok'?'log-ok':type==='warn'?'log-warn':'';
+  d.innerHTML = `<span class="log-t">${t}</span><span class="${cls}">${msg}</span>`;
+  a.appendChild(d); a.scrollTop = a.scrollHeight;
 }
 
-function setStatus(msg) {
-  document.getElementById('statusTxt').textContent = msg;
-  document.getElementById('statusBar').classList.add('on');
-}
+function setStatus(msg) { document.getElementById('statusTxt').textContent=msg; document.getElementById('statusBar').classList.add('on'); }
 function hideStatus() { document.getElementById('statusBar').classList.remove('on'); }
+function setProgress(pct) { document.getElementById('progressBar').classList.add('on'); document.getElementById('progressFill').style.width=pct+'%'; }
 
 function connectGmail() {
   const redirectUri = window.location.origin;
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(SCOPE)}&prompt=consent`;
-  window.open(url, '_blank', 'width=520,height=620');
-  document.getElementById('tokenArea').style.display = 'block';
-  document.getElementById('connectBtn').style.display = 'none';
+  window.open(url,'_blank','width=520,height=620');
+  document.getElementById('tokenArea').style.display='block';
+  document.getElementById('connectBtn').style.display='none';
 }
 
 function extractToken() {
   const val = document.getElementById('tokenInput').value.trim();
   let token = null;
-  try {
-    const u = new URL(val);
-    const hash = u.hash.substring(1) || u.search.substring(1);
-    token = new URLSearchParams(hash).get('access_token');
-  } catch(e) {
-    if (val.length > 20 && !val.includes(' ')) token = val;
-  }
-  if (token) {
-    window.gmailToken = token;
-    document.getElementById('tokenArea').style.display = 'none';
-    document.getElementById('connectedRow').style.display = 'flex';
+  try { const u=new URL(val); const hash=u.hash.substring(1)||u.search.substring(1); token=new URLSearchParams(hash).get('access_token'); }
+  catch(e) { if(val.length>20&&!val.includes(' ')) token=val; }
+  if(token) {
+    window.gmailToken=token;
+    document.getElementById('tokenArea').style.display='none';
+    document.getElementById('connectedRow').style.display='flex';
     document.getElementById('scanCard').classList.remove('scan-locked');
-    document.getElementById('emptyState').textContent = 'לחץ על "סרוק חשבוניות" כדי להתחיל';
-    log('חיבור ל-Gmail הצליח', true);
-  } else {
-    alert('לא נמצא token — ודא שהדבקת את ה-URL המלא');
-  }
+    document.getElementById('emptyState').textContent='לחץ על "סרוק חשבוניות" כדי להתחיל';
+    log('חיבור ל-Gmail הצליח','ok');
+  } else { alert('לא נמצא token — ודא שהדבקת את ה-URL המלא'); }
 }
 
 async function gmailFetch(url) {
-  const r = await fetch(url, { headers: { Authorization: `Bearer ${window.gmailToken}` }});
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const r = await fetch(url,{headers:{Authorization:`Bearer ${window.gmailToken}`}});
+  if(!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
 }
 
 async function callClaude(system, user) {
-  const r = await fetch('/api/analyze', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ system, user })
-  });
+  const r = await fetch('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system,user})});
   const d = await r.json();
-  return d.text || '';
+  return d.text||'';
 }
 
-async function analyzeEmail(subject, from, snippet, hasAtt) {
-  const sys = `Invoice detection agent. Respond ONLY with valid JSON, no extra text:
-{"is_invoice":boolean,"vendor":"string or null","amount":"string or null (e.g. $50.00 or 200 ILS)","currency":"string or null"}`;
-  const txt = await callClaude(sys, `Subject: ${subject}\nFrom: ${from}\nSnippet: ${snippet}\nAttachment: ${hasAtt}`);
-  try { return JSON.parse(txt.replace(/```json|```/g,'').trim()); }
-  catch(e) { return { is_invoice: false }; }
+function extractBodyText(payload) {
+  let text='';
+  function walk(part) {
+    if(!part) return;
+    if(part.mimeType==='text/plain'&&part.body?.data) text+=atob(part.body.data.replace(/-/g,'+').replace(/_/g,'/'));
+    else if(part.mimeType==='text/html'&&part.body?.data&&!text) { const html=atob(part.body.data.replace(/-/g,'+').replace(/_/g,'/')); text+=html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' '); }
+    if(part.parts) part.parts.forEach(walk);
+  }
+  walk(payload);
+  return text.substring(0,3000);
+}
+
+function extractInvoiceLinks(bodyText) {
+  const patterns = [
+    /https?:\/\/[^\s"'<>]{10,200}(?:invoice|receipt|חשבונית|קבלה|payment|billing|bill|statement)[^\s"'<>]{0,100}/gi,
+    /https?:\/\/[^\s"'<>]{10,200}\.pdf[^\s"'<>]{0,50}/gi,
+    /https?:\/\/[^\s"'<>]{10,200}(?:view|download|portal)[^\s"'<>]{0,100}(?:invoice|receipt|bill)[^\s"'<>]{0,50}/gi
+  ];
+  const links = new Set();
+  patterns.forEach(p => { (bodyText.match(p)||[]).forEach(m => { if(m.length<300) links.add(m.trim()); }); });
+  return [...links].slice(0,3);
+}
+
+async function analyzeEmail(subject, from, snippet, bodyText, hasAtt) {
+  const links = extractInvoiceLinks(bodyText);
+  const sys = `Invoice detection agent. Respond ONLY with valid JSON:
+{"is_invoice":boolean,"vendor":"string or null","amount":"string or null","currency":"string or null","description":"string or null (what it's for, max 50 chars)","invoice_links":["array of invoice/payment URLs from body"],"due_date":"string or null"}`;
+  const txt = await callClaude(sys,`Subject: ${subject}\nFrom: ${from}\nSnippet: ${snippet}\nBody: ${bodyText.substring(0,600)}\nAttachment: ${hasAtt}\nLinks in body: ${links.join(', ')}`);
+  try {
+    const parsed = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    if(links.length>0&&(!parsed.invoice_links||!parsed.invoice_links.length)) parsed.invoice_links=links;
+    return parsed;
+  } catch(e) { return {is_invoice:false}; }
 }
 
 async function startScan() {
-  if (!window.gmailToken) return;
+  if(!window.gmailToken) return;
   const btn = document.getElementById('scanBtn');
-  btn.disabled = true;
-  invoices = []; scannedCount = 0;
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('tblCard').style.display = 'none';
-  document.getElementById('statsRow').style.display = 'none';
-  document.getElementById('logArea').innerHTML = '';
+  btn.disabled=true; invoices=[]; scannedCount=0; linkCount=0;
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('tblCard').style.display='none';
+  document.getElementById('statsRow').style.display='none';
+  document.getElementById('logArea').innerHTML='';
 
-  const days = parseInt(document.getElementById('range').value);
-  const maxEmails = parseInt(document.getElementById('maxEmails').value);
-  const afterDate = Math.floor((Date.now() - days * 86400000) / 1000);
+  const days=parseInt(document.getElementById('range').value);
+  const maxEmails=parseInt(document.getElementById('maxEmails').value);
+  const afterDate=Math.floor((Date.now()-days*86400000)/1000);
   log(`מתחיל סריקה — ${days} ימים, עד ${maxEmails} אימיילים`);
 
-  const queries = [
-    `invoice after:${afterDate}`, `receipt after:${afterDate}`,
-    `חשבונית after:${afterDate}`, `payment after:${afterDate}`,
-    `order confirmation after:${afterDate}`, `קבלה after:${afterDate}`
+  const queries=[
+    `invoice after:${afterDate}`,`receipt after:${afterDate}`,
+    `חשבונית after:${afterDate}`,`קבלה after:${afterDate}`,
+    `payment after:${afterDate}`,`order confirmation after:${afterDate}`,
+    `billing statement after:${afterDate}`,`לצפייה בחשבונית after:${afterDate}`,
+    `view invoice after:${afterDate}`,`your invoice after:${afterDate}`
   ];
 
-  let ids = new Set();
-  for (const q of queries) {
+  let ids=new Set();
+  for(const q of queries) {
     try {
-      const res = await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(q)}&maxResults=${Math.ceil(maxEmails/queries.length)}`);
-      if (res.messages) res.messages.forEach(m => ids.add(m.id));
+      const res=await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(q)}&maxResults=${Math.ceil(maxEmails/queries.length)}`);
+      if(res.messages) res.messages.forEach(m=>ids.add(m.id));
     } catch(e) { log(`שגיאת חיפוש: ${e.message}`); }
   }
 
-  const allIds = [...ids].slice(0, maxEmails);
+  const allIds=[...ids].slice(0,maxEmails);
   log(`נמצאו ${allIds.length} אימיילים לניתוח`);
 
-  for (let i = 0; i < allIds.length; i++) {
+  for(let i=0;i<allIds.length;i++) {
     setStatus(`מנתח ${i+1}/${allIds.length}...`);
+    setProgress(Math.round((i/allIds.length)*100));
     try {
-      const msg = await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${allIds[i]}?format=full`);
-      const headers = msg.payload?.headers || [];
-      const get = n => headers.find(h=>h.name===n)?.value || '';
-      const subject = get('Subject'), from = get('From'), dateH = get('Date');
-      const snippet = msg.snippet || '';
-      const parts = (msg.payload?.parts || []);
-      const attPart = parts.find(p => p.filename && p.filename.length > 0);
-      scannedCount++;
-      updateStats();
-      const analysis = await analyzeEmail(subject, from, snippet, !!attPart);
-      if (analysis.is_invoice) {
+      const msg=await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${allIds[i]}?format=full`);
+      const headers=msg.payload?.headers||[];
+      const get=n=>headers.find(h=>h.name===n)?.value||'';
+      const subject=get('Subject'),from=get('From'),dateH=get('Date');
+      const snippet=msg.snippet||'';
+      const bodyText=extractBodyText(msg.payload);
+      const parts=(msg.payload?.parts||[]);
+      const attPart=parts.find(p=>p.filename&&p.filename.length>0);
+      scannedCount++; updateStats();
+      const analysis=await analyzeEmail(subject,from,snippet,bodyText,!!attPart);
+      if(analysis.is_invoice) {
+        const hasLinks=analysis.invoice_links&&analysis.invoice_links.length>0;
+        if(hasLinks) linkCount++;
         invoices.push({
-          id: msg.id, subject,
-          from: extractName(from),
-          date: formatDate(dateH),
-          amount: analysis.amount || '—',
-          vendor: analysis.vendor || extractName(from),
-          hasAtt: !!attPart,
-          attName: attPart?.filename || null,
-          attMime: attPart?.mimeType || null,
-          attId: attPart?.body?.attachmentId || null
+          id:msg.id,subject,from:extractName(from),date:formatDate(dateH),
+          amount:analysis.amount||'—',vendor:analysis.vendor||extractName(from),
+          description:analysis.description||'',due_date:analysis.due_date||'',
+          hasAtt:!!attPart,attName:attPart?.filename||null,
+          attMime:attPart?.mimeType||null,attId:attPart?.body?.attachmentId||null,
+          invoiceLinks:analysis.invoice_links||[]
         });
-        log(`✓ ${invoices[invoices.length-1].vendor} — ${invoices[invoices.length-1].amount}`, true);
+        const src=hasLinks?'🔗':attPart?'📎':'';
+        log(`✓ ${invoices[invoices.length-1].vendor} — ${invoices[invoices.length-1].amount} ${src}`,'ok');
         renderTable(); updateStats();
       }
     } catch(e) { log(`שגיאה: ${e.message}`); }
   }
-
-  hideStatus();
-  log(`הושלם — ${invoices.length} חשבוניות מתוך ${scannedCount}`, true);
-  btn.disabled = false;
-  if (invoices.length === 0) {
-    document.getElementById('emptyState').style.display = 'block';
-    document.getElementById('emptyState').textContent = `לא נמצאו חשבוניות ב-${days} הימים האחרונים`;
-  }
+  setProgress(100); hideStatus();
+  log(`הושלם — ${invoices.length} חשבוניות (${linkCount} עם קישורים)`,'ok');
+  btn.disabled=false;
+  if(invoices.length===0) { document.getElementById('emptyState').style.display='block'; document.getElementById('emptyState').textContent=`לא נמצאו חשבוניות ב-${days} הימים האחרונים`; }
 }
 
-function extractName(from) {
-  const m = from.match(/^"?([^"<]+)"?\s*</);
-  return m ? m[1].trim() : from.replace(/<.*>/,'').trim() || from;
-}
-
-function formatDate(d) {
-  try { return new Date(d).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}); }
-  catch(e) { return d; }
-}
+function extractName(from) { const m=from.match(/^"?([^"<]+)"?\s*</); return m?m[1].trim():from.replace(/<.*>/,'').trim()||from; }
+function formatDate(d) { try{return new Date(d).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});}catch(e){return d;} }
 
 function updateStats() {
-  document.getElementById('statsRow').style.display = 'grid';
-  document.getElementById('sCount').textContent = invoices.length;
-  document.getElementById('sScanned').textContent = scannedCount;
-  const total = invoices.reduce((s,i) => { const n=parseFloat((i.amount||'').replace(/[^0-9.]/g,'')); return s+(isNaN(n)?0:n); }, 0);
-  document.getElementById('sTotal').textContent = total > 0 ? total.toLocaleString('he-IL',{maximumFractionDigits:0}) : '—';
+  document.getElementById('statsRow').style.display='grid';
+  document.getElementById('sCount').textContent=invoices.length;
+  document.getElementById('sLinks').textContent=linkCount;
+  document.getElementById('sScanned').textContent=scannedCount;
+  const total=invoices.reduce((s,i)=>{const n=parseFloat((i.amount||'').replace(/[^0-9.]/g,''));return s+(isNaN(n)?0:n);},0);
+  document.getElementById('sTotal').textContent=total>0?total.toLocaleString('he-IL',{maximumFractionDigits:0}):'—';
 }
 
 function renderTable() {
-  const tb = document.getElementById('tblBody');
-  tb.innerHTML = '';
-  document.getElementById('tblCard').style.display = 'block';
-  invoices.forEach((inv, i) => {
-    const isPdf = (inv.attMime||'').includes('pdf')||(inv.attName||'').endsWith('.pdf');
-    const badge = inv.hasAtt
-      ? (isPdf ? `<span class="badge b-pdf">PDF</span>` : `<span class="badge b-file">קובץ</span>`)
-      : `<span class="badge b-no">אין</span>`;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${inv.date}</td><td title="${inv.vendor}">${inv.vendor}</td><td>${inv.amount}</td><td>${badge}</td><td>${inv.hasAtt&&inv.attId?`<button class="dl-btn" onclick="downloadAtt(${i})">הורד</button>`:''}</td>`;
+  const tb=document.getElementById('tblBody'); tb.innerHTML='';
+  document.getElementById('tblCard').style.display='block';
+  invoices.forEach((inv,i)=>{
+    const isPdf=(inv.attMime||'').includes('pdf')||(inv.attName||'').endsWith('.pdf');
+    const hasLinks=inv.invoiceLinks&&inv.invoiceLinks.length>0;
+    let badge=`<span class="badge b-no">אין</span>`;
+    if(inv.hasAtt&&hasLinks) badge=`<span class="badge b-both">קובץ + קישור</span>`;
+    else if(hasLinks) badge=`<span class="badge b-link">קישור</span>`;
+    else if(inv.hasAtt) badge=isPdf?`<span class="badge b-pdf">PDF</span>`:`<span class="badge b-file">קובץ</span>`;
+    let actions='';
+    if(inv.hasAtt&&inv.attId) actions+=`<button class="dl-btn" onclick="downloadAtt(${i})">הורד</button>`;
+    if(hasLinks) inv.invoiceLinks.forEach((link,li)=>{ actions+=`<a href="${link}" target="_blank" class="view-btn">צפה${inv.invoiceLinks.length>1?' '+(li+1):''}</a>`; });
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${inv.date}</td><td class="td-vendor" title="${inv.vendor}">${inv.vendor}</td><td class="td-amount">${inv.amount}</td><td class="td-desc" title="${inv.description}">${inv.description||'—'}</td><td>${badge}</td><td>${actions}</td>`;
     tb.appendChild(tr);
   });
 }
 
 async function downloadAtt(i) {
-  const inv = invoices[i];
-  if (!inv.attId) return;
+  const inv=invoices[i]; if(!inv.attId) return;
   log(`מוריד: ${inv.attName}...`);
   try {
-    const data = await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${inv.id}/attachments/${inv.attId}`);
-    const b64 = data.data.replace(/-/g,'+').replace(/_/g,'/');
-    const bin = atob(b64);
-    const bytes = new Uint8Array(bin.length);
-    for (let j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
-    const blob = new Blob([bytes],{type:inv.attMime||'application/octet-stream'});
-    const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=inv.attName||'invoice'; a.click();
-    log(`✓ הורד: ${inv.attName}`, true);
+    const data=await gmailFetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${inv.id}/attachments/${inv.attId}`);
+    const b64=data.data.replace(/-/g,'+').replace(/_/g,'/');
+    const bin=atob(b64); const bytes=new Uint8Array(bin.length);
+    for(let j=0;j<bin.length;j++) bytes[j]=bin.charCodeAt(j);
+    const blob=new Blob([bytes],{type:inv.attMime||'application/octet-stream'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=inv.attName||'invoice'; a.click();
+    log(`✓ הורד: ${inv.attName}`,'ok');
   } catch(e) { log(`שגיאת הורדה: ${e.message}`); }
 }
 
 function exportCSV() {
-  const rows = [['תאריך','ספק','סכום','קובץ','נושא']];
-  invoices.forEach(i => rows.push([i.date,i.vendor,i.amount,i.hasAtt?(i.attName||'כן'):'לא',i.subject]));
-  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='חשבוניות.csv'; a.click();
-  log('CSV יוצא', true);
+  const rows=[['תאריך','ספק','סכום','תיאור','מקור','קישור','קובץ']];
+  invoices.forEach(i=>rows.push([i.date,i.vendor,i.amount,i.description||'',i.invoiceLinks.length>0?'קישור':i.hasAtt?'קובץ':'אין',i.invoiceLinks[0]||'',i.hasAtt?(i.attName||'כן'):'לא']));
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='חשבוניות.csv'; a.click();
+  log('CSV יוצא','ok');
 }
 </script>
 </body>
