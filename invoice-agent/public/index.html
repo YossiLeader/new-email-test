@@ -263,19 +263,20 @@ async function startScan() {
   const afterDate=Math.floor((Date.now()-days*86400000)/1000);
   log(`מתחיל סריקה — ${days} ימים, עד ${maxEmails} אימיילים`);
 
-  log('טוען כל האימיילים...');
+  const searchQuery = `(חשבונית OR קבלה OR invoice OR receipt OR "חשבונית מס" OR "חשבונית מס קבלה" OR "לתשלום" OR "סכום לתשלום" OR payment OR billing OR "order confirmation" OR "קישור להורדת מסמך" OR has:attachment) after:${afterDate}`;
+  log(`מחפש אימיילים פיננסיים...`);
   let ids=new Set();
   let pageToken = null;
   let fetched = 0;
   while(fetched < maxEmails) {
     try {
       const batchSize = Math.min(500, maxEmails - fetched);
-      let url = `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=after:${afterDate}&maxResults=${batchSize}`;
+      let url = `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(searchQuery)}&maxResults=${batchSize}`;
       if(pageToken) url += `&pageToken=${pageToken}`;
       const res = await gmailFetch(url);
       if(res.messages) { res.messages.forEach(m=>ids.add(m.id)); fetched+=res.messages.length; }
       pageToken = res.nextPageToken || null;
-      if(!pageToken) break;
+      if(!pageToken || fetched >= maxEmails) break;
     } catch(e) { log(`שגיאת טעינה: ${e.message}`); break; }
   }
 
