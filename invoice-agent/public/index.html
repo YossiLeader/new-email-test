@@ -262,11 +262,19 @@ async function startScan() {
   log(`מתחיל סריקה — ${days} ימים, עד ${maxEmails} אימיילים`);
 
   const queries=[
-    `invoice after:${afterDate}`,`receipt after:${afterDate}`,
-    `חשבונית after:${afterDate}`,`קבלה after:${afterDate}`,
-    `payment after:${afterDate}`,`order confirmation after:${afterDate}`,
-    `billing statement after:${afterDate}`,`לצפייה בחשבונית after:${afterDate}`,
-    `view invoice after:${afterDate}`,`your invoice after:${afterDate}`
+    `invoice after:${afterDate}`,
+    `receipt after:${afterDate}`,
+    `חשבונית after:${afterDate}`,
+    `קבלה after:${afterDate}`,
+    `חשבונית מס after:${afterDate}`,
+    `חשבונית מס קבלה after:${afterDate}`,
+    `קישור להורדת מסמך after:${afterDate}`,
+    `payment after:${afterDate}`,
+    `order confirmation after:${afterDate}`,
+    `from:cardcom.co.il after:${afterDate}`,
+    `from:icount after:${afterDate}`,
+    `from:rivhit after:${afterDate}`,
+    `מסמך פיננסי after:${afterDate}`
   ];
 
   let ids=new Set();
