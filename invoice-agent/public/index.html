@@ -178,7 +178,7 @@ function hideStatus() { document.getElementById('statusBar').classList.remove('o
 function setProgress(pct) { document.getElementById('progressBar').classList.add('on'); document.getElementById('progressFill').style.width=pct+'%'; }
 
 function connectGmail() {
-  const redirectUri = window.location.origin;
+  const redirectUri = https://project-ao7df.vercel.app;
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(SCOPE)}&prompt=consent`;
   window.open(url,'_blank','width=520,height=620');
   document.getElementById('tokenArea').style.display='block';
